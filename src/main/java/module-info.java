@@ -5,4 +5,6 @@ module com.example.editdb {
 
     opens com.editdb to javafx.fxml;
     exports com.editdb;
+    exports com.editdb.controllers;
+    opens com.editdb.controllers to javafx.fxml;
 }

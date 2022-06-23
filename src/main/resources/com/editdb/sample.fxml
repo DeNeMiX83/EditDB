@@ -7,41 +7,46 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #252626;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="600.0" maxWidth="1000.0" minHeight="600.0" minWidth="1000.0" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #252626;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.editdb.controllers.Controller">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="399.0" layoutY="26.0" text="Редактор" textAlignment="JUSTIFY" textFill="#67f573">
          <font>
             <Font name="Gill Sans MT" size="48.0" />
          </font>
       </Label>
-      <AnchorPane layoutY="105.0" prefHeight="595.0" prefWidth="1000.0" style="-fx-background-color: #67f573;">
+      <AnchorPane maxHeight="150.0" maxWidth="1000.0" prefHeight="125.0" prefWidth="1011.0" style="-fx-border-color: #67f573;" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="-10.0" AnchorPane.topAnchor="-10.0" />
+      <AnchorPane layoutY="116.0" maxHeight="500.0" maxWidth="1049.0" prefHeight="500.0" prefWidth="1000.0" style="-fx-background-color: #252626;">
          <children>
-            <TextField layoutX="317.0" layoutY="181.0" prefHeight="41.0" prefWidth="366.0" promptText="Логин" style="-fx-background-color: #c0edd7; -fx-background-radius: 10; -fx-border-color: #000000; -fx-border-radius: 10;">
+            <TextField fx:id="login_field" layoutX="317.0" layoutY="181.0" prefHeight="41.0" prefWidth="366.0" promptText="Логин" style="-fx-background-color: #252626; -fx-background-radius: 10; -fx-border-color: #67f573; -fx-border-radius: 10; -fx-text-fill: #67f573;">
                <font>
                   <Font size="22.0" />
                </font>
             </TextField>
-            <PasswordField layoutX="317.0" layoutY="253.0" prefHeight="41.0" prefWidth="366.0" promptText="Пароль" style="-fx-background-color: #c0edd7; -fx-background-radius: 10; -fx-border-color: #000000; -fx-border-radius: 10;">
+            <PasswordField fx:id="password_field" layoutX="317.0" layoutY="253.0" prefHeight="41.0" prefWidth="366.0" promptText="Пароль" style="-fx-background-color: #252626; -fx-background-radius: 10; -fx-border-color: #67f573; -fx-border-radius: 10; -fx-text-fill: #67f573;">
                <font>
                   <Font size="22.0" />
                </font>
             </PasswordField>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="359.0" layoutY="98.0" text="Авторизация" textAlignment="JUSTIFY" textFill="#363636">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="359.0" layoutY="98.0" text="Регистрация" textAlignment="JUSTIFY" textFill="#67f573">
                <font>
                   <Font name="Gill Sans MT" size="48.0" />
                </font>
             </Label>
-            <Button layoutX="424.0" layoutY="316.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="151.0" style="-fx-background-color: #f0b33a;" text="Войти">
+            <Button fx:id="loginSignInButton" layoutX="356.0" layoutY="327.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="288.0" style="-fx-background-color: #252626; -fx-border-color: #67f573;" text="Зарегистрироваться" textFill="#67f573">
                <font>
-                  <Font name="Gill Sans MT" size="31.0" />
+                  <Font name="Gill Sans MT" size="25.0" />
                </font>
             </Button>
          </children>
       </AnchorPane>
-      <Button layoutX="753.0" layoutY="14.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="233.0" style="-fx-background-color: #f0b33a;" text="Регистрация">
+      <Button fx:id="authSignInButton" layoutX="753.0" layoutY="14.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="233.0" style="-fx-background-color: #f0b33a;" text="Войти">
          <font>
-            <Font name="Gill Sans MT" size="18.0" />
+            <Font name="Gill Sans MT" size="21.0" />
+         </font>
+      </Button>
+      <Button fx:id="guestSignInButton" layoutX="753.0" layoutY="64.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="233.0" style="-fx-background-color: #f0b33a;" text="Войти как гость">
+         <font>
+            <Font name="Gill Sans MT" size="21.0" />
          </font>
       </Button>
    </children>

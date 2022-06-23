@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #252626;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.editdb.controllers.AppController">
+    <children>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="399.0" layoutY="26.0" text="Редактор" textAlignment="JUSTIFY" textFill="#67f573">
+            <font>
+                <Font name="Gill Sans MT" size="48.0" />
+            </font>
+        </Label>
+        <AnchorPane layoutY="105.0" prefHeight="595.0" prefWidth="1000.0" style="-fx-background-color: #252626;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="105.0">
+         <children>
+            <TableView layoutX="86.0" layoutY="121.0" prefHeight="426.0" prefWidth="829.0" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="86.0" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="121.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="C1" />
+                <TableColumn prefWidth="75.0" text="C2" />
+              </columns>
+            </TableView>
+         </children></AnchorPane>
+      <AnchorPane layoutX="108.0" layoutY="76.0" prefHeight="79.0" prefWidth="188.0" />
+      <AnchorPane layoutX="10.0" layoutY="10.0" maxHeight="150.0" maxWidth="1000.0" prefHeight="125.0" prefWidth="1011.0" style="-fx-border-color: #67f573;" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="-10.0" AnchorPane.topAnchor="-10.0" />
+    </children>
+</AnchorPane>
