@@ -10,6 +10,9 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+
+import com.editdb.animations.Shape;
+import com.editdb.db.DataBaseHahdler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -47,6 +50,8 @@ public class Controller {
 
     @FXML
     void initialize() {
+        DataBaseHahdler dbHahdler = new DataBaseHahdler();
+
         authSignInButton.setOnAction(event -> {
             authSignInButton.getScene().getWindow().hide();
 
@@ -63,22 +68,20 @@ public class Controller {
             stage.setScene(new Scene(root));
             stage.show();
         });
+
         loginSignInButton.setOnAction(event -> {
-            String login = login_field.getText();
-            String pass = password_field.getText();
-            MessageDigest md5 = null;
-            try {
-                md5 = MessageDigest.getInstance("MD5");
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
+            String login = login_field.getText().trim();
+            String pass = password_field.getText().trim();
+
+            if (login.equals("") && pass.equals("")) {
+                Shape shapeLogin = new Shape(login_field);
+                Shape shapePass = new Shape(password_field);
+                shapeLogin.playAnimation();
+                shapePass.playAnimation();
             }
-            byte[] bytes = md5.digest(pass.getBytes());
-            StringBuilder hashPass = new StringBuilder();
-            for (byte b: bytes){
-                hashPass.append(String.format("%02X", b));
+            else {
+                dbHahdler.registerUser(login, pass);
             }
-            System.out.println(login);
-            System.out.println(hashPass);
         });
     }
 
