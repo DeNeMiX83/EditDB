@@ -83,8 +83,7 @@ public class AuthController {
     }
 
     private void loginUser(String login, String pass) {
-        DataBaseHahdler dbHahdler = new DataBaseHahdler();
-        ResultSet users = dbHahdler.getUser(login, pass);
+        ResultSet users = DataBaseHahdler.getUser(login, pass);
 
         int count = 0;
         while (true){

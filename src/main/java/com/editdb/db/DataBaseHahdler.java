@@ -13,21 +13,23 @@ import java.sql.ResultSet;
 
 import static com.editdb.services.base.hashPass;
 
-public class DataBaseHahdler extends Configs {
-    Connection dbConnection;
+public class DataBaseHahdler{
+    static Connection dbConnection;
 
-    public Connection getDbConnection()
+    public static Connection getDbConnection()
             throws ClassNotFoundException, SQLException {
-        String connectionString = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName;
+        if (dbConnection == null) {
+            String connectionString = "jdbc:mysql://" + Configs.dbHost + ":" + Configs.dbPort + "/" + Configs.dbName;
 
-//        Class.forName("com.mysql.jdbc.Driver");
+            //        Class.forName("com.mysql.jdbc.Driver");
 
-        dbConnection = DriverManager.getConnection(connectionString, dbUser, dbPass);
+            dbConnection = DriverManager.getConnection(connectionString, Configs.dbUser, Configs.dbPass);
+        }
 
         return dbConnection;
     }
 
-    public void registerUser(String login, String pass) {
+    public static void registerUser(String login, String pass) {
         String insert = "INSERT INTO user (login, password) VALUES (?, ?)";
 
         try {
@@ -35,12 +37,12 @@ public class DataBaseHahdler extends Configs {
             prSt.setString(1, login);
             prSt.setString(2, base.hashPass(pass));
             prSt.executeUpdate();
-        } catch (SQLException | ClassNotFoundException e){
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    public ResultSet getUser(String login, String pass){
+    public static ResultSet getUser(String login, String pass) {
         ResultSet resSet = null;
 
         String select = "SELECT * FROM user WHERE login = ? and password = ?";
@@ -50,7 +52,7 @@ public class DataBaseHahdler extends Configs {
             prSt.setString(1, login);
             prSt.setString(2, base.hashPass(pass));
             resSet = prSt.executeQuery();
-        } catch (SQLException | ClassNotFoundException e){
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 

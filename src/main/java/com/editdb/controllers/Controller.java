@@ -50,7 +50,6 @@ public class Controller {
 
     @FXML
     void initialize() {
-        DataBaseHahdler dbHahdler = new DataBaseHahdler();
 
         authSignInButton.setOnAction(event -> {
             authSignInButton.getScene().getWindow().hide();
@@ -80,7 +79,7 @@ public class Controller {
                 shapePass.playAnimation();
             }
             else {
-                dbHahdler.registerUser(login, pass);
+                DataBaseHahdler.registerUser(login, pass);
             }
         });
     }
