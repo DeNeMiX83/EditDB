@@ -2,6 +2,7 @@ module com.example.editdb {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires mysql.connector.java;
 
 
     opens com.editdb to javafx.fxml;

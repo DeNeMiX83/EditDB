@@ -9,9 +9,9 @@ public class Shape {
 
     public Shape(Node node) {
         tt = new TranslateTransition(Duration.millis(70), node);
-        tt.setFromX(0f);
-        tt.setByX(10f);
-        tt.setCycleCount(3);
+        tt.setFromX(0);
+        tt.setByX(10);
+        tt.setCycleCount(4);
         tt.setAutoReverse(true);
     }
 

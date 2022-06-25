@@ -27,12 +27,17 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Button fx:id="add" layoutX="71.0" layoutY="45.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="145.0" style="-fx-background-color: #252626; -fx-border-color: #67f573; -fx-border-radius: 40;" text="Добавить" textFill="#67f573">
+            <Button fx:id="addButton" layoutX="71.0" layoutY="45.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="145.0" style="-fx-background-color: #252626; -fx-border-color: #67f573; -fx-border-radius: 40;" text="Добавить" textFill="#67f573">
                <font>
                   <Font name="Gill Sans MT" size="25.0" />
                </font>
             </Button>
-            <Button fx:id="loginSignInButton1" layoutX="227.0" layoutY="45.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="131.0" style="-fx-background-color: #252626; -fx-border-color: #67f573; -fx-border-radius: 40;" text="Удалить" textFill="#67f573">
+            <Button fx:id="deleteButton" layoutX="405.0" layoutY="45.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="131.0" style="-fx-background-color: #252626; -fx-border-color: #67f573; -fx-border-radius: 40;" text="Удалить" textFill="#67f573">
+               <font>
+                  <Font name="Gill Sans MT" size="25.0" />
+               </font>
+            </Button>
+            <Button fx:id="editButton" layoutX="234.0" layoutY="45.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="151.0" style="-fx-background-color: #252626; -fx-border-color: #67f573; -fx-border-radius: 40;" text="Изменить" textFill="#67f573">
                <font>
                   <Font name="Gill Sans MT" size="25.0" />
                </font>

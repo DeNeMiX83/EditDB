@@ -23,8 +23,39 @@ public class QuotesTeacher {
         this.date = date;
     }
 
+    public void delete(){
+        String insert = "DELETE FROM quotes_teacher " +
+                "WHERE id = ?";
+
+        try {
+            PreparedStatement prSt = DataBaseHahdler.getDbConnection().prepareStatement(insert);
+            prSt.setInt(1, id);
+            prSt.executeUpdate();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void update(String quote, String teacher, String subject, String date){
+        String insert = "UPDATE quotes_teacher " +
+                "SET quote = ?, teacher = ?, subject = ?, date = ? " +
+                "WHERE id = ?";
+
+        try {
+            PreparedStatement prSt = DataBaseHahdler.getDbConnection().prepareStatement(insert);
+            prSt.setString(1, quote);
+            prSt.setString(2, teacher);
+            prSt.setString(3, subject);
+            prSt.setString(4, date);
+            prSt.setInt(5, id);
+            prSt.executeUpdate();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static QuotesTeacher create(String quotes, String teacher, String subject, String date) {
-        String insert = "INSERT INTO quotes_teacher VALUES (?, ?, ?, ?)";
+        String insert = "INSERT INTO quotes_teacher(quote, teacher, subject, date) VALUES (?, ?, ?, ?)";
 
         try {
             PreparedStatement prSt = DataBaseHahdler.getDbConnection().prepareStatement(insert);

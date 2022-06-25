@@ -21,7 +21,7 @@ public class DataBaseHahdler{
         if (dbConnection == null) {
             String connectionString = "jdbc:mysql://" + Configs.dbHost + ":" + Configs.dbPort + "/" + Configs.dbName;
 
-            //        Class.forName("com.mysql.jdbc.Driver");
+//            Class.forName("com.mysql.jdbc.Driver");
 
             dbConnection = DriverManager.getConnection(connectionString, Configs.dbUser, Configs.dbPass);
         }
