@@ -3,7 +3,6 @@ package com.editdb.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.editdb.animations.Shape;
@@ -12,7 +11,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -68,7 +66,7 @@ public class AppController {
             stage.show();
 
             AddQuoteController addQuoteController = loader.getController();
-            addQuoteController.setParent(this);
+            addQuoteController.setTable(table);
         });
 
         editButton.setOnAction(event -> {
@@ -88,10 +86,11 @@ public class AppController {
                 e.printStackTrace();
             }
 
-            stage.show();
 
             EditQuoteController editQuoteController = loader.getController();
-            editQuoteController.setParent(this, current);
+            editQuoteController.setQuote(current);
+            stage.show();
+            editQuoteController.setTable(table);
         });
 
         deleteButton.setOnAction(event -> {
@@ -101,9 +100,8 @@ public class AppController {
                 button.playAnimation();
                 return;
             }
-            ArrayList<QuotesTeacher> items = new ArrayList<>(table.getSelectionModel().getSelectedItems());
-            table.getItems().removeAll(items);
-            items.get(0).delete();
+            table.getItems().removeAll(current);
+            current.delete();
         });
     }
 
@@ -117,10 +115,6 @@ public class AppController {
     }
 
     public QuotesTeacher getCurrentQuotes() {
-        ArrayList<QuotesTeacher> items = new ArrayList<>(table.getSelectionModel().getSelectedItems());
-        if (items.size() == 0) {
-            return null;
-        }
-        return items.get(0);
+        return table.getSelectionModel().getSelectedItem();
     }
 }

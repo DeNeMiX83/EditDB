@@ -1,9 +1,11 @@
 package com.editdb.controllers;
 
 import com.editdb.db.models.QuotesTeacher;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
@@ -11,7 +13,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class AddQuoteController {
-    AppController parent;
+    TableView<QuotesTeacher> table;
 
     @FXML
     private ResourceBundle resources;
@@ -51,15 +53,14 @@ public class AddQuoteController {
             String subject = subjectField.getText();
             String date = String.valueOf(dateField.getValue());
 
-            QuotesTeacher.create(quote, teacher, subject, date);
-
+            QuotesTeacher newQuote = QuotesTeacher.create(quote, teacher, subject, date);
+            table.getItems().add(newQuote);
             addButton.getScene().getWindow().hide();
-            parent.start();
         });
     }
 
-    public void setParent(AppController parent){
-        this.parent = parent;
+    public void setTable(TableView<QuotesTeacher> table){
+        this.table = table;
     }
 
 }

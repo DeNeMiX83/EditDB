@@ -151,4 +151,20 @@ public class QuotesTeacher {
     public String getDate() {
         return date;
     }
+
+    public void setQuote(String quote) {
+        this.quote = quote;
+    }
+
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 }
