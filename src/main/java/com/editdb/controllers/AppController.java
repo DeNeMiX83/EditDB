@@ -1,22 +1,21 @@
 package com.editdb.controllers;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
-
+import com.editdb.Resources;
 import com.editdb.animations.Shape;
 import com.editdb.db.models.QuotesTeacher;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
-public class AppController {
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class AppController extends AppQuestController {
 
     @FXML
     private ResourceBundle resources;
@@ -71,7 +70,7 @@ public class AppController {
 
         editButton.setOnAction(event -> {
             QuotesTeacher current = getCurrentQuotes();
-            if (current == null) {
+            if (current == null || current.getAuthorId() != Resources.user.getId()) {
                 Shape button = new Shape(editButton);
                 button.playAnimation();
                 return;
@@ -86,7 +85,6 @@ public class AppController {
                 e.printStackTrace();
             }
 
-
             EditQuoteController editQuoteController = loader.getController();
             editQuoteController.setQuote(current);
             stage.show();
@@ -95,7 +93,7 @@ public class AppController {
 
         deleteButton.setOnAction(event -> {
             QuotesTeacher current = getCurrentQuotes();
-            if (current == null) {
+            if (current == null || current.getAuthorId() != Resources.user.getId()) {
                 Shape button = new Shape(deleteButton);
                 button.playAnimation();
                 return;
@@ -105,14 +103,6 @@ public class AppController {
         });
     }
 
-    public void start() {
-        quote.setCellValueFactory(new PropertyValueFactory<>("quote"));
-        teacher.setCellValueFactory(new PropertyValueFactory<>("teacher"));
-        subject.setCellValueFactory(new PropertyValueFactory<>("subject"));
-        date.setCellValueFactory(new PropertyValueFactory<>("date"));
-        ObservableList<QuotesTeacher> data = FXCollections.observableArrayList(QuotesTeacher.getAll());
-        table.setItems(data);
-    }
 
     public QuotesTeacher getCurrentQuotes() {
         return table.getSelectionModel().getSelectedItem();

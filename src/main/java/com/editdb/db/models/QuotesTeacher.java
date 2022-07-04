@@ -1,5 +1,6 @@
 package com.editdb.db.models;
 
+import com.editdb.Resources;
 import com.editdb.db.DataBaseHahdler;
 import com.editdb.services.base;
 
@@ -14,13 +15,15 @@ public class QuotesTeacher {
     private String teacher;
     private String subject;
     private String date;
+    private int author_id;
 
-    public QuotesTeacher(int id, String quote, String teacher, String subject, String date) {
+    public QuotesTeacher(int id, String quote, String teacher, String subject, String date, int author_id) {
         this.id = id;
         this.quote = quote;
         this.teacher = teacher;
         this.subject = subject;
         this.date = date;
+        this.author_id = author_id;
     }
 
     public void delete(){
@@ -55,7 +58,7 @@ public class QuotesTeacher {
     }
 
     public static QuotesTeacher create(String quotes, String teacher, String subject, String date) {
-        String insert = "INSERT INTO quotes_teacher(quote, teacher, subject, date) VALUES (?, ?, ?, ?)";
+        String insert = "INSERT INTO quotes_teacher(quote, teacher, subject, date, author_id) VALUES (?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement prSt = DataBaseHahdler.getDbConnection().prepareStatement(insert);
@@ -63,6 +66,7 @@ public class QuotesTeacher {
             prSt.setString(2, teacher);
             prSt.setString(3, subject);
             prSt.setString(4, date);
+            prSt.setObject(5, Resources.user.getId());
             prSt.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -101,7 +105,8 @@ public class QuotesTeacher {
             String teacher = resSet.getString("teacher");
             String subject = resSet.getString("subject");
             String date = resSet.getString("date");
-            return new QuotesTeacher(id, quote, teacher, subject, date);
+            int author_id = resSet.getInt("author_id");
+            return new QuotesTeacher(id, quote, teacher, subject, date, author_id);
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -152,6 +157,8 @@ public class QuotesTeacher {
         return date;
     }
 
+    public int getAuthorId(){return author_id;}
+
     public void setQuote(String quote) {
         this.quote = quote;
     }
@@ -167,4 +174,9 @@ public class QuotesTeacher {
     public void setDate(String date) {
         this.date = date;
     }
+
+    public void setAuthor(int author_id){
+        this.author_id = author_id;
+    }
+
 }

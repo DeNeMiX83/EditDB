@@ -11,8 +11,10 @@ import java.security.spec.KeySpec;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+import com.editdb.Resources;
 import com.editdb.animations.Shape;
 import com.editdb.db.DataBaseHahdler;
+import com.editdb.db.models.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -79,8 +81,26 @@ public class Controller {
                 shapePass.playAnimation();
             }
             else {
-                DataBaseHahdler.registerUser(login, pass);
+                Resources.user = User.create(login, pass);
             }
+        });
+
+        guestSignInButton.setOnAction(event -> {
+            guestSignInButton.getScene().getWindow().hide();
+            Resources.user = null;
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/com/editdb/appGuest.fxml"));
+            try {
+                loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
         });
     }
 

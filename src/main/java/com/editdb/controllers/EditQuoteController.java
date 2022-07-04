@@ -60,7 +60,6 @@ public class EditQuoteController {
 
             quoteTeacher.update(quote, teacher, subject, date);
             table.refresh();
-
         });
 
     }

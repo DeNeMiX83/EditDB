@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import com.editdb.Resources;
 import com.editdb.animations.Shape;
 import com.editdb.db.DataBaseHahdler;
+import com.editdb.db.models.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -65,41 +67,15 @@ public class AuthController {
             } else {
                 loginUser(login, pass);
             }
-//            MessageDigest md5 = null;
-//            try {
-//                md5 = MessageDigest.getInstance("MD5");
-//            } catch (NoSuchAlgorithmException e) {
-//                e.printStackTrace();
-//            }
-//            assert md5 != null;
-//            byte[] bytes = md5.digest(pass.getBytes());
-//            StringBuilder hashPass = new StringBuilder();
-//            for (byte b: bytes){
-//                hashPass.append(String.format("%02X", b));
-//            }
-//            System.out.println(login);
-//            System.out.println(pass);
         });
     }
 
     private void loginUser(String login, String pass) {
-        ResultSet users = DataBaseHahdler.getUser(login, pass);
+        User user = User.auth(login, pass);
 
-        int count = 0;
-        while (true){
-            try {
-                if (!users.next()) break;
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            count ++;
-            if (count > 1){
-                break;
-            }
-        }
-
-        if (count == 1){
+        if (user != null){
             authSignInButton.getScene().getWindow().hide();
+            Resources.user = user;
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/com/editdb/app.fxml"));
@@ -113,6 +89,7 @@ public class AuthController {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
+
         }
         else {
             Shape shapeLogin = new Shape(login_field);
