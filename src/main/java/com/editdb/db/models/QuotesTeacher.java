@@ -7,6 +7,7 @@ import com.editdb.services.base;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 public class QuotesTeacher {
@@ -34,12 +35,14 @@ public class QuotesTeacher {
             PreparedStatement prSt = DataBaseHahdler.getDbConnection().prepareStatement(insert);
             prSt.setInt(1, id);
             prSt.executeUpdate();
+        } catch (SQLIntegrityConstraintViolationException e){
+            return null;
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    public void update(String quote, String teacher, String subject, String date){
+    public QuotesTeacher update(String quote, String teacher, String subject, String date){
         String insert = "UPDATE quotes_teacher " +
                 "SET quote = ?, teacher = ?, subject = ?, date = ? " +
                 "WHERE id = ?";
@@ -52,9 +55,17 @@ public class QuotesTeacher {
             prSt.setString(4, date);
             prSt.setInt(5, id);
             prSt.executeUpdate();
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLIntegrityConstraintViolationException e){
+            return null;
+        }catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        this.setQuote(quote);
+        this.setTeacher(teacher);
+        this.setSubject(subject);
+        this.setDate(date);
+
+        return this;
     }
 
     public static QuotesTeacher create(String quotes, String teacher, String subject, String date) {
@@ -68,6 +79,8 @@ public class QuotesTeacher {
             prSt.setString(4, date);
             prSt.setObject(5, Resources.user.getId());
             prSt.executeUpdate();
+        } catch (SQLIntegrityConstraintViolationException e){
+            return null;
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
