@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class QuotesTeacher {
     private int id;
@@ -35,31 +36,35 @@ public class QuotesTeacher {
             PreparedStatement prSt = DataBaseHahdler.getDbConnection().prepareStatement(insert);
             prSt.setInt(1, id);
             prSt.executeUpdate();
-        } catch (SQLIntegrityConstraintViolationException e){
-            return null;
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    public QuotesTeacher update(String quote, String teacher, String subject, String date){
-        String insert = "UPDATE quotes_teacher " +
-                "SET quote = ?, teacher = ?, subject = ?, date = ? " +
-                "WHERE id = ?";
+    public QuotesTeacher update(HashMap<String, String> values){
+        String valuesStr = "";
+        for (String key : values.keySet()){
+            valuesStr += key + " = ?,";
+        }
+        valuesStr = valuesStr.substring(0, valuesStr.length() - 1);
+        String insert = "UPDATE quotes_teacher SET " +
+                valuesStr + " WHERE id = ?";
 
         try {
             PreparedStatement prSt = DataBaseHahdler.getDbConnection().prepareStatement(insert);
-            prSt.setString(1, quote);
-            prSt.setString(2, teacher);
-            prSt.setString(3, subject);
-            prSt.setString(4, date);
-            prSt.setInt(5, id);
+            int n = 1;
+            for (String key : values.keySet()){
+                prSt.setString(n, values.get(key));
+                n++;
+            }
+            prSt.setInt(n, id);
             prSt.executeUpdate();
         } catch (SQLIntegrityConstraintViolationException e){
             return null;
         }catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
         this.setQuote(quote);
         this.setTeacher(teacher);
         this.setSubject(subject);

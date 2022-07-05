@@ -2,8 +2,11 @@ package com.editdb.controllers;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import com.editdb.Resources;
+import com.editdb.animations.Shape;
 import com.editdb.db.models.QuotesTeacher;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -51,15 +54,20 @@ public class EditQuoteController {
             String subject = subjectField.getText();
             String date = String.valueOf(dateField.getValue());
 
-            quoteTeacher.setQuote(quote);
-            quoteTeacher.setTeacher(teacher);
-            quoteTeacher.setSubject(subject);
-            quoteTeacher.setDate(date);
-            
-            editButton.getScene().getWindow().hide();
+            HashMap<String, String> values = new HashMap<>();
+            values.put("quote", quote);
+            values.put("teacher", teacher);
+            values.put("subject", subject);
+            values.put("date", date);
 
-            quoteTeacher.update(quote, teacher, subject, date);
-            table.refresh();
+            Object updateQuote = quoteTeacher.update(values);
+            if (updateQuote != null){
+                editButton.getScene().getWindow().hide();
+                table.refresh();
+            } else {
+                Shape button = new Shape(editButton);
+                button.playAnimation();
+            }
         });
 
     }

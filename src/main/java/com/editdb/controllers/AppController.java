@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
@@ -15,13 +16,18 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AppController extends AppQuestController {
+import static com.editdb.Resources.countQuotes;
+
+public class AppController extends AppGuestController {
 
     @FXML
     private ResourceBundle resources;
 
     @FXML
     private URL location;
+
+    @FXML
+    private Label countQuotesLabel;
 
     @FXML
     private Button addButton;
@@ -65,7 +71,7 @@ public class AppController extends AppQuestController {
             stage.show();
 
             AddQuoteController addQuoteController = loader.getController();
-            addQuoteController.setTable(table);
+            addQuoteController.setTable(this);
         });
 
         editButton.setOnAction(event -> {
@@ -100,11 +106,30 @@ public class AppController extends AppQuestController {
             }
             table.getItems().removeAll(current);
             current.delete();
+            countQuotesLabel.setText(String.valueOf(--countQuotes));
         });
     }
 
 
     public QuotesTeacher getCurrentQuotes() {
         return table.getSelectionModel().getSelectedItem();
+    }
+
+    public void start(){
+        super.start();
+        for (QuotesTeacher quote: quoteList){
+            if (quote.getAuthorId() == Resources.user.getId()){
+                countQuotes++;
+            }
+        }
+        countQuotesLabel.setText(String.valueOf(countQuotes));
+    }
+
+    public TableView<QuotesTeacher> getTable() {
+        return table;
+    }
+
+    public Label getCountQuotesLabel() {
+        return countQuotesLabel;
     }
 }

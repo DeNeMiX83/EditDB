@@ -10,14 +10,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class AppQuestController {
+public class AppGuestController {
+    ArrayList<QuotesTeacher> quoteList;
 
     @FXML
     private ResourceBundle resources;
@@ -50,21 +51,6 @@ public class AppQuestController {
 
     public void start() {
         quote.setCellValueFactory(new PropertyValueFactory<>("quote"));
-//        quote.setCellFactory(col -> {
-//            TableCell<QuotesTeacher, String> cell = new TableCell<QuotesTeacher, String>() {
-//                @Override
-//                public void updateItem(QuotesTeacher quoteTeacher, boolean empty) {
-//                    super.updateItem(quoteTeacher.getQuote(), empty);
-//
-//                    if (quoteTeacher.getAuthorId() == Resources.user.getId()) {
-//                        setStyle("-fx-background-color: tomato;");
-//                    } else {
-////                        quote.setBackgroundColor(Color.RED);
-//                    }
-//                }
-//            };
-//            return cell;
-//        });
         table.setRowFactory(tv -> new TableRow<QuotesTeacher>() {
             @Override
             public void updateItem(QuotesTeacher item, boolean empty) {
@@ -72,11 +58,11 @@ public class AppQuestController {
                 if (item == null) {
                     setStyle("");
                 } else if (Resources.user == null) {
-                    setStyle("-fx-background-color: tomato;");
+//                    setStyle("-fx-background-color: tomato;");
                 } else if (item.getAuthorId() == Resources.user.getId()) {
                     setStyle("-fx-background-color: green;");
                 } else {
-                    setStyle("-fx-background-color: tomato;");
+//                    setStyle("-fx-background-color: tomato;");
                 }
             }
         });
@@ -84,7 +70,8 @@ public class AppQuestController {
         subject.setCellValueFactory(new PropertyValueFactory<>("subject"));
         date.setCellValueFactory(new PropertyValueFactory<>("date"));
 
-        ObservableList<QuotesTeacher> data = FXCollections.observableArrayList(QuotesTeacher.getAll());
+        ObservableList<QuotesTeacher> data = FXCollections.observableArrayList(
+                quoteList = QuotesTeacher.getAll());
         table.setItems(data);
 
         backButton.setOnAction(event -> {

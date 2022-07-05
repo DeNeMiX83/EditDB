@@ -42,6 +42,16 @@
                   <Font name="Gill Sans MT" size="25.0" />
                </font>
             </Button>
+            <Label layoutX="549.0" layoutY="57.0" text="Количество ваших записей:" textFill="#67f573">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <Label fx:id="countQuotesLabel" layoutX="881.0" layoutY="57.0" prefHeight="36.0" prefWidth="43.0" textFill="#67f573">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
          </children></AnchorPane>
       <AnchorPane layoutX="108.0" layoutY="76.0" prefHeight="79.0" prefWidth="188.0" />
       <AnchorPane layoutX="10.0" layoutY="10.0" maxHeight="150.0" maxWidth="1000.0" prefHeight="125.0" prefWidth="1011.0" style="-fx-border-color: #67f573;" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="-10.0" AnchorPane.topAnchor="-10.0" />

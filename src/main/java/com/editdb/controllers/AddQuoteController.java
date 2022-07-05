@@ -1,5 +1,7 @@
 package com.editdb.controllers;
 
+import com.editdb.Resources;
+import com.editdb.animations.Shape;
 import com.editdb.db.models.QuotesTeacher;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -13,7 +15,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class AddQuoteController {
-    TableView<QuotesTeacher> table;
+    AppController parent;
 
     @FXML
     private ResourceBundle resources;
@@ -54,13 +56,19 @@ public class AddQuoteController {
             String date = String.valueOf(dateField.getValue());
 
             QuotesTeacher newQuote = QuotesTeacher.create(quote, teacher, subject, date);
-            table.getItems().add(newQuote);
-            addButton.getScene().getWindow().hide();
+            if (newQuote != null){
+                addButton.getScene().getWindow().hide();
+                parent.getTable().getItems().add(newQuote);
+                parent.getCountQuotesLabel().setText(String.valueOf(++Resources.countQuotes));
+            } else {
+                Shape button = new Shape(addButton);
+                button.playAnimation();
+            }
         });
     }
 
-    public void setTable(TableView<QuotesTeacher> table){
-        this.table = table;
+    public void setTable(AppController parent){
+        this.parent = parent;
     }
 
 }
