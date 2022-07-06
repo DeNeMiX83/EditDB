@@ -50,7 +50,6 @@ public class AppGuestController {
     }
 
     public void start() {
-        quote.setCellValueFactory(new PropertyValueFactory<>("quote"));
         table.setRowFactory(tv -> new TableRow<QuotesTeacher>() {
             @Override
             public void updateItem(QuotesTeacher item, boolean empty) {
@@ -66,6 +65,7 @@ public class AppGuestController {
                 }
             }
         });
+        quote.setCellValueFactory(new PropertyValueFactory<>("quote"));
         teacher.setCellValueFactory(new PropertyValueFactory<>("teacher"));
         subject.setCellValueFactory(new PropertyValueFactory<>("subject"));
         date.setCellValueFactory(new PropertyValueFactory<>("date"));

@@ -3,8 +3,10 @@ package com.editdb.controllers;
 import com.editdb.Resources;
 import com.editdb.animations.Shape;
 import com.editdb.db.models.QuotesTeacher;
+import com.editdb.services.base;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -37,6 +39,9 @@ public class AppController extends AppGuestController {
 
     @FXML
     private Button editButton;
+
+    @FXML
+    private Button profileButton;
 
 
     @FXML
@@ -76,7 +81,7 @@ public class AppController extends AppGuestController {
 
         editButton.setOnAction(event -> {
             QuotesTeacher current = getCurrentQuotes();
-            if (current == null || current.getAuthorId() != Resources.user.getId()) {
+            if (!base.checkAccessForQuote(current)) {
                 Shape button = new Shape(editButton);
                 button.playAnimation();
                 return;
@@ -92,21 +97,37 @@ public class AppController extends AppGuestController {
             }
 
             EditQuoteController editQuoteController = loader.getController();
-            editQuoteController.setQuote(current);
             stage.show();
+            editQuoteController.setQuote(current);
             editQuoteController.setTable(table);
         });
 
         deleteButton.setOnAction(event -> {
             QuotesTeacher current = getCurrentQuotes();
-            if (current == null || current.getAuthorId() != Resources.user.getId()) {
+            if (!base.checkAccessForQuote(current)) {
                 Shape button = new Shape(deleteButton);
                 button.playAnimation();
                 return;
             }
             table.getItems().removeAll(current);
             current.delete();
-            countQuotesLabel.setText(String.valueOf(--countQuotes));
+            if (current.getAuthorId() == Resources.user.getId()){
+                countQuotesLabel.setText(String.valueOf(--countQuotes));
+            }
+        });
+
+        profileButton.setOnAction(event -> {
+            profileButton.getScene().getWindow().hide();
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/com/editdb/profile.fxml"));
+            Stage stage = new Stage();
+            try {
+                stage.setScene(new Scene(loader.load()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            stage.show();
         });
     }
 
@@ -115,10 +136,10 @@ public class AppController extends AppGuestController {
         return table.getSelectionModel().getSelectedItem();
     }
 
-    public void start(){
+    public void start() {
         super.start();
-        for (QuotesTeacher quote: quoteList){
-            if (quote.getAuthorId() == Resources.user.getId()){
+        for (QuotesTeacher quote : quoteList) {
+            if (quote.getAuthorId() == Resources.user.getId()) {
                 countQuotes++;
             }
         }

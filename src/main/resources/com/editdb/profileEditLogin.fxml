@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="287.0" prefWidth="479.0" style="-fx-background-color: #252626;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.editdb.controllers.profileEditLoginController">
+   <children>
+      <AnchorPane layoutY="105.0" prefHeight="180.0" prefWidth="1000.0" style="-fx-background-color: #252626;" AnchorPane.bottomAnchor="415.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="105.0" />
+      <AnchorPane layoutX="10.0" layoutY="10.0" maxHeight="150.0" maxWidth="1000.0" prefHeight="125.0" prefWidth="1011.0" style="-fx-border-color: #67f573;" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="-10.0" AnchorPane.topAnchor="-10.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="150.0" layoutY="34.0" text="Профиль" textAlignment="JUSTIFY" textFill="#67f573">
+               <font>
+                  <Font name="Gill Sans MT" size="48.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Button fx:id="backButton" layoutX="24.0" layoutY="24.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="88.0" style="-fx-background-color: #f0b33a;" text="Назад">
+         <font>
+            <Font name="Gill Sans MT" size="21.0" />
+         </font>
+      </Button>
+      <Button fx:id="editButton" layoutX="319.0" layoutY="187.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="131.0" style="-fx-background-color: #252626; -fx-border-color: #67f573; -fx-border-radius: 40;" text="Извенить" textFill="#67f573">
+         <font>
+            <Font name="Gill Sans MT" size="22.0" />
+         </font>
+      </Button>
+      <Label layoutX="147.0" layoutY="126.0" text="Новый никнейм" textFill="#67f573">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <TextField fx:id="loginField" layoutX="24.0" layoutY="184.0" prefHeight="48.0" prefWidth="272.0" promptText="Никнейм" style="-fx-background-color: #252626; -fx-background-radius: 10; -fx-border-color: #67f573; -fx-border-radius: 10; -fx-text-fill: #67f573;">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </TextField>
+   </children>
+</AnchorPane>

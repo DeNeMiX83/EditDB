@@ -1,6 +1,7 @@
 package com.editdb.controllers;
 
 import java.net.URL;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -60,11 +61,11 @@ public class EditQuoteController {
             values.put("subject", subject);
             values.put("date", date);
 
-            Object updateQuote = quoteTeacher.update(values);
-            if (updateQuote != null){
+            try{
+                quoteTeacher.update(values);
                 editButton.getScene().getWindow().hide();
                 table.refresh();
-            } else {
+            } catch (SQLIntegrityConstraintViolationException e){
                 Shape button = new Shape(editButton);
                 button.playAnimation();
             }

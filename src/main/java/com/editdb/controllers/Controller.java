@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
@@ -52,21 +53,20 @@ public class Controller {
 
     @FXML
     void initialize() {
+        Resources.user = null;
+        Resources.countQuotes = 0;
 
         authSignInButton.setOnAction(event -> {
             authSignInButton.getScene().getWindow().hide();
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/com/editdb/auth.fxml"));
+            Stage stage = new Stage();
             try {
-                loader.load();
+                stage.setScene(new Scene(loader.load()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            Parent root = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
             stage.show();
         });
 
@@ -81,7 +81,22 @@ public class Controller {
                 shapePass.playAnimation();
             }
             else {
-                Resources.user = User.create(login, pass);
+                Shape shapeLogin = new Shape(login_field);
+                try {
+                    Resources.user = User.create(login, pass);
+                    authSignInButton.getScene().getWindow().hide();
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("/com/editdb/app.fxml"));
+                    Stage stage = new Stage();
+                    try {
+                        stage.setScene(new Scene(loader.load()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    stage.show();
+                } catch (SQLIntegrityConstraintViolationException e) {
+                    shapeLogin.playAnimation();
+                }
             }
         });
 

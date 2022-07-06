@@ -2,7 +2,6 @@ package com.editdb.db.models;
 
 import com.editdb.Resources;
 import com.editdb.db.DataBaseHahdler;
-import com.editdb.services.base;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,7 +27,7 @@ public class QuotesTeacher {
         this.author_id = author_id;
     }
 
-    public void delete(){
+    public void delete() {
         String insert = "DELETE FROM quotes_teacher " +
                 "WHERE id = ?";
 
@@ -41,9 +40,9 @@ public class QuotesTeacher {
         }
     }
 
-    public QuotesTeacher update(HashMap<String, String> values){
+    public void update(HashMap<String, String> values) throws SQLIntegrityConstraintViolationException {
         String valuesStr = "";
-        for (String key : values.keySet()){
+        for (String key : values.keySet()) {
             valuesStr += key + " = ?,";
         }
         valuesStr = valuesStr.substring(0, valuesStr.length() - 1);
@@ -53,24 +52,27 @@ public class QuotesTeacher {
         try {
             PreparedStatement prSt = DataBaseHahdler.getDbConnection().prepareStatement(insert);
             int n = 1;
-            for (String key : values.keySet()){
+            for (String key : values.keySet()) {
                 prSt.setString(n, values.get(key));
                 n++;
             }
             prSt.setInt(n, id);
             prSt.executeUpdate();
-        } catch (SQLIntegrityConstraintViolationException e){
-            return null;
-        }catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw e;
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        this.setQuote(quote);
-        this.setTeacher(teacher);
-        this.setSubject(subject);
-        this.setDate(date);
+        String quote = values.get("quote");
+        String teacher = values.get("teacher");
+        String subject = values.get("subject");
+        String date = values.get("date");
 
-        return this;
+        if (quote != null) this.setQuote(quote);
+        if (teacher != null) this.setTeacher(teacher);
+        if (subject != null) this.setSubject(subject);
+        if (date != null) this.setDate(date);
     }
 
     public static QuotesTeacher create(String quotes, String teacher, String subject, String date) {
@@ -84,7 +86,7 @@ public class QuotesTeacher {
             prSt.setString(4, date);
             prSt.setObject(5, Resources.user.getId());
             prSt.executeUpdate();
-        } catch (SQLIntegrityConstraintViolationException e){
+        } catch (SQLIntegrityConstraintViolationException e) {
             return null;
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -116,7 +118,7 @@ public class QuotesTeacher {
         return null;
     }
 
-    public static QuotesTeacher getCurrentFromResSet(ResultSet resSet){
+    public static QuotesTeacher getCurrentFromResSet(ResultSet resSet) {
         try {
             int id = resSet.getInt("id");
             String quote = resSet.getString("quote");
@@ -125,13 +127,13 @@ public class QuotesTeacher {
             String date = resSet.getString("date");
             int author_id = resSet.getInt("author_id");
             return new QuotesTeacher(id, quote, teacher, subject, date, author_id);
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static ArrayList<QuotesTeacher> getAll(){
+    public static ArrayList<QuotesTeacher> getAll() {
         ResultSet resSet = null;
 
         String select = "SELECT * FROM quotes_teacher";
@@ -148,7 +150,7 @@ public class QuotesTeacher {
             while (resSet.next()) {
                 arr.add(getCurrentFromResSet(resSet));
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -175,7 +177,9 @@ public class QuotesTeacher {
         return date;
     }
 
-    public int getAuthorId(){return author_id;}
+    public int getAuthorId() {
+        return author_id;
+    }
 
     public void setQuote(String quote) {
         this.quote = quote;
@@ -193,7 +197,7 @@ public class QuotesTeacher {
         this.date = date;
     }
 
-    public void setAuthor(int author_id){
+    public void setAuthor(int author_id) {
         this.author_id = author_id;
     }
 
