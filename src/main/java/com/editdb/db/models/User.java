@@ -14,11 +14,14 @@ public class User {
     private String password;
     private boolean is_admin=false;
     private ArrayList<User> subordinates = new ArrayList<>();
+    private ArrayList<Integer> rolesId = new ArrayList<>();
 
     public User(int id, String login, String password) {
         this.id = id;
         this.login = login;
         this.password = password;
+        this.setSubordinates(getSubordinatesFromDB());
+        this.setRolesId(getRolesIdFromDB());
     }
 
     public static User create(String login, String password) throws SQLIntegrityConstraintViolationException{
@@ -169,12 +172,29 @@ public class User {
         return arr;
     }
 
-    public void doAdmin(){
-        this.is_admin = true;
-    }
+    public ArrayList<Integer> getRolesIdFromDB(){
+        ResultSet resSet = null;
+        String select = "SELECT * FROM user_role WHERE user_id=?";
 
-    public Boolean is_admin(){
-        return is_admin;
+        try {
+            PreparedStatement prSt = DataBaseHahdler.getDbConnection().prepareStatement(select);
+            prSt.setInt(1, id);
+            resSet = prSt.executeQuery();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<Integer> arr = new ArrayList<>();
+        try {
+            while (resSet.next()) {
+                int role_id = resSet.getInt("role_id");
+                arr.add(role_id);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return arr;
     }
 
     public static User getCurrentFromResSet(ResultSet resSet) {
@@ -187,6 +207,14 @@ public class User {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void doAdmin(){
+        this.is_admin = true;
+    }
+
+    public Boolean is_admin(){
+        return is_admin;
     }
 
     public int getId() {
@@ -205,6 +233,10 @@ public class User {
         return subordinates;
     }
 
+    public ArrayList<Integer> getRolesId() {
+        return rolesId;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -219,6 +251,10 @@ public class User {
 
     public void setSubordinates(ArrayList<User> subordinates) {
         this.subordinates = subordinates;
+    }
+
+    public void setRolesId(ArrayList<Integer> rolesId) {
+        this.rolesId = rolesId;
     }
 }
 

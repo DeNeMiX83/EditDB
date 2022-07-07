@@ -6,6 +6,7 @@ import com.editdb.db.models.User;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 public class base {
     public static String hashPass(String pass) {
@@ -26,6 +27,9 @@ public class base {
 
     public static Boolean checkAccessForQuote(QuotesTeacher quote) {
         User user = Resources.user;
+        if (user.is_admin()){
+            return true;
+        }
 
         Boolean is_subordinate = false;
         for (User people: user.getSubordinates())
@@ -33,12 +37,22 @@ public class base {
                 is_subordinate = true;
                 break;
             }
+        if (is_subordinate){
+            return true;
+        }
 
-        return !(quote == null || (
-                quote.getAuthorId() != user.getId() && !(
-                        user.is_admin() ||
-                        is_subordinate)
-                )
-        );
+        if (quote.getAuthorId() == user.getId()){
+            return true;
+        }
+
+        for (Integer user_role: user.getRolesId()){
+            for (Integer quote_role: quote.getRolesForAccess()){
+                if (user_role.equals(quote_role)){
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

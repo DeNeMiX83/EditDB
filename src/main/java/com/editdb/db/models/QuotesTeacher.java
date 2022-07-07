@@ -17,6 +17,7 @@ public class QuotesTeacher {
     private String subject;
     private String date;
     private int author_id;
+    private ArrayList<Integer> rolesForAccess = new ArrayList<>();
 
     public QuotesTeacher(int id, String quote, String teacher, String subject, String date, int author_id) {
         this.id = id;
@@ -25,6 +26,7 @@ public class QuotesTeacher {
         this.subject = subject;
         this.date = date;
         this.author_id = author_id;
+        this.setRolesForAccess(getRolesIdFromDB());
     }
 
     public void delete() {
@@ -118,21 +120,6 @@ public class QuotesTeacher {
         return null;
     }
 
-    public static QuotesTeacher getCurrentFromResSet(ResultSet resSet) {
-        try {
-            int id = resSet.getInt("id");
-            String quote = resSet.getString("quote");
-            String teacher = resSet.getString("teacher");
-            String subject = resSet.getString("subject");
-            String date = resSet.getString("date");
-            int author_id = resSet.getInt("author_id");
-            return new QuotesTeacher(id, quote, teacher, subject, date, author_id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public static ArrayList<QuotesTeacher> getAll() {
         ResultSet resSet = null;
 
@@ -155,6 +142,46 @@ public class QuotesTeacher {
         }
 
         return arr;
+    }
+
+    public ArrayList<Integer> getRolesIdFromDB(){
+        ResultSet resSet = null;
+        String select = "SELECT * FROM quote_role WHERE quote_id=?";
+
+        try {
+            PreparedStatement prSt = DataBaseHahdler.getDbConnection().prepareStatement(select);
+            prSt.setInt(1, id);
+            resSet = prSt.executeQuery();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<Integer> arr = new ArrayList<>();
+        try {
+            while (resSet.next()) {
+                int role_id = resSet.getInt("role_id");
+                arr.add(role_id);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return arr;
+    }
+
+    public static QuotesTeacher getCurrentFromResSet(ResultSet resSet) {
+        try {
+            int id = resSet.getInt("id");
+            String quote = resSet.getString("quote");
+            String teacher = resSet.getString("teacher");
+            String subject = resSet.getString("subject");
+            String date = resSet.getString("date");
+            int author_id = resSet.getInt("author_id");
+            return new QuotesTeacher(id, quote, teacher, subject, date, author_id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public int getId() {
@@ -181,6 +208,10 @@ public class QuotesTeacher {
         return author_id;
     }
 
+    public ArrayList<Integer> getRolesForAccess() {
+        return rolesForAccess;
+    }
+
     public void setQuote(String quote) {
         this.quote = quote;
     }
@@ -201,4 +232,7 @@ public class QuotesTeacher {
         this.author_id = author_id;
     }
 
+    public void setRolesForAccess(ArrayList<Integer> rolesForAccess) {
+        this.rolesForAccess = rolesForAccess;
+    }
 }
