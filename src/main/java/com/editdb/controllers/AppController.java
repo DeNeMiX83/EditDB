@@ -114,6 +114,7 @@ public class AppController extends AppGuestController {
             if (current.getAuthorId() == Resources.user.getId()){
                 countQuotesLabel.setText(String.valueOf(--countQuotes));
             }
+            table.refresh();
         });
 
         profileButton.setOnAction(event -> {

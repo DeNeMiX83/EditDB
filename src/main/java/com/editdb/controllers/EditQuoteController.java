@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-import com.editdb.Resources;
 import com.editdb.animations.Shape;
 import com.editdb.db.models.QuotesTeacher;
 import javafx.fxml.FXML;
@@ -50,7 +49,13 @@ public class EditQuoteController {
         });
 
         editButton.setOnAction(event -> {
-            String quote = quoteField.getText();
+            Shape button = new Shape(editButton);
+
+            String quote = quoteField.getText().trim();
+            if (quote.equals("")) {
+                button.playAnimation();
+                return;
+            }
             String teacher = teacherField.getText();
             String subject = subjectField.getText();
             String date = String.valueOf(dateField.getValue());
@@ -66,7 +71,6 @@ public class EditQuoteController {
                 editButton.getScene().getWindow().hide();
                 table.refresh();
             } catch (SQLIntegrityConstraintViolationException e){
-                Shape button = new Shape(editButton);
                 button.playAnimation();
             }
         });

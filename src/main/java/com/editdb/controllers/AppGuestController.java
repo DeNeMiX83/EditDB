@@ -2,6 +2,7 @@ package com.editdb.controllers;
 
 import com.editdb.Resources;
 import com.editdb.db.models.QuotesTeacher;
+import com.editdb.services.base;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -58,7 +59,10 @@ public class AppGuestController {
                     setStyle("");
                 } else if (Resources.user == null) {
 //                    setStyle("-fx-background-color: tomato;");
-                } else if (item.getAuthorId() == Resources.user.getId()) {
+                } else if (
+//                        item.getAuthorId() == Resources.user.getId()
+                        base.checkAccessForQuote(item)
+                ) {
                     setStyle("-fx-background-color: green;");
                 } else {
 //                    setStyle("-fx-background-color: tomato;");

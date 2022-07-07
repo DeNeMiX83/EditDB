@@ -3,10 +3,8 @@ package com.editdb.db.models;
 import com.editdb.db.DataBaseHahdler;
 import com.editdb.services.base;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -15,6 +13,7 @@ public class User {
     private String login;
     private String password;
     private boolean is_admin=false;
+    private ArrayList<User> subordinates = new ArrayList<>();
 
     public User(int id, String login, String password) {
         this.id = id;
@@ -28,12 +27,14 @@ public class User {
         int id = 0;
 
         try {
-            PreparedStatement prSt = DataBaseHahdler.getDbConnection().prepareStatement(insert);
+            PreparedStatement prSt = DataBaseHahdler.getDbConnection().prepareStatement(
+                    insert, Statement.RETURN_GENERATED_KEYS);
             prSt.setString(1, login);
             prSt.setString(2, password);
             prSt.execute();
 
             ResultSet generatedId = prSt.getGeneratedKeys();
+            generatedId.next();
             id = generatedId.getInt(1);
         } catch (SQLIntegrityConstraintViolationException e){
             throw e;
@@ -42,6 +43,29 @@ public class User {
         }
 
         return new User(id, login, password);
+    }
+
+    public static User get(int id) {
+        ResultSet resSet = null;
+
+        String select = "SELECT * FROM user WHERE id = ?";
+
+        try {
+            PreparedStatement prSt = DataBaseHahdler.getDbConnection().prepareStatement(select);
+            prSt.setInt(1, id);
+            resSet = prSt.executeQuery();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            assert resSet != null;
+            resSet.next();
+            return getCurrentFromResSet(resSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void update(HashMap<String, String> values) throws SQLIntegrityConstraintViolationException {
@@ -75,30 +99,6 @@ public class User {
         if (password != null) this.setPassword(password);
     }
 
-//    public static User get(String login, String password) {
-//        ResultSet resSet = null;
-//
-//        String select = "SELECT * FROM user WHERE login = ? and password = ?";
-//
-//        try {
-//            PreparedStatement prSt = DataBaseHahdler.getDbConnection().prepareStatement(select);
-//            prSt.setString(1, login);
-//            prSt.setString(2, password);
-//            resSet = prSt.executeQuery();
-//        } catch (SQLException | ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//
-//        try {
-//            assert resSet != null;
-//            resSet.next();
-//            return getCurrentFromResSet(resSet);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-
     public static User auth(String login, String password) {
         ResultSet resSet = null;
         password = base.hashPass(password);
@@ -124,6 +124,7 @@ public class User {
                 id = resSet.getInt("id");
                 is_admin = resSet.getBoolean("is_admin");
                 user = new User(id, login, password);
+                user.setSubordinates(user.getSubordinatesFromDB());
                 if (is_admin == true){
                     user.doAdmin();
                 }
@@ -143,6 +144,31 @@ public class User {
         return user;
     }
 
+    public ArrayList<User> getSubordinatesFromDB(){
+        ResultSet resSet = null;
+        String select = "SELECT * FROM verifier WHERE chief=?";
+
+        try {
+            PreparedStatement prSt = DataBaseHahdler.getDbConnection().prepareStatement(select);
+            prSt.setInt(1, id);
+            resSet = prSt.executeQuery();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<User> arr = new ArrayList<>();
+        try {
+            while (resSet.next()) {
+                int id = resSet.getInt("person");
+                arr.add(get(id));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return arr;
+    }
+
     public void doAdmin(){
         this.is_admin = true;
     }
@@ -151,17 +177,17 @@ public class User {
         return is_admin;
     }
 
-//    public static User getCurrentFromResSet(ResultSet resSet) {
-//        try {
-//            int id = resSet.getInt("id");
-//            String login = resSet.getString("login");
-//            String password = resSet.getString("password");
-//            return new User(id, login, password);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
+    public static User getCurrentFromResSet(ResultSet resSet) {
+        try {
+            int id = resSet.getInt("id");
+            String login = resSet.getString("login");
+            String password = resSet.getString("password");
+            return new User(id, login, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public int getId() {
         return id;
@@ -175,6 +201,10 @@ public class User {
         return password;
     }
 
+    public ArrayList<User> getSubordinates() {
+        return subordinates;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -185,6 +215,10 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setSubordinates(ArrayList<User> subordinates) {
+        this.subordinates = subordinates;
     }
 }
 

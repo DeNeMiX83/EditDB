@@ -50,10 +50,16 @@ public class AddQuoteController {
         });
 
         addButton.setOnAction(event -> {
-            String quote = quoteField.getText();
-            String teacher = teacherField.getText();
-            String subject = subjectField.getText();
-            String date = String.valueOf(dateField.getValue());
+            Shape button = new Shape(addButton);
+
+            String quote = quoteField.getText().trim();
+            if (quote.equals("")) {
+                button.playAnimation();
+                return;
+            }
+            String teacher = teacherField.getText().trim();
+            String subject = subjectField.getText().trim();
+            String date = String.valueOf(dateField.getValue()).trim();
 
             QuotesTeacher newQuote = QuotesTeacher.create(quote, teacher, subject, date);
             if (newQuote != null){
@@ -61,7 +67,6 @@ public class AddQuoteController {
                 parent.getTable().getItems().add(newQuote);
                 parent.getCountQuotesLabel().setText(String.valueOf(++Resources.countQuotes));
             } else {
-                Shape button = new Shape(addButton);
                 button.playAnimation();
             }
         });

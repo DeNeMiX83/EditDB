@@ -26,8 +26,19 @@ public class base {
 
     public static Boolean checkAccessForQuote(QuotesTeacher quote) {
         User user = Resources.user;
+
+        Boolean is_subordinate = false;
+        for (User people: user.getSubordinates())
+            if (people.getId() == quote.getAuthorId()){
+                is_subordinate = true;
+                break;
+            }
+
         return !(quote == null || (
-                quote.getAuthorId() != user.getId() && !user.is_admin())
+                quote.getAuthorId() != user.getId() && !(
+                        user.is_admin() ||
+                        is_subordinate)
+                )
         );
     }
 }
