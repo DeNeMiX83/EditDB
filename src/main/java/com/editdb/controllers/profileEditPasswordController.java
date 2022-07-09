@@ -44,15 +44,7 @@ public class profileEditPasswordController {
         backButton.setOnAction(event -> {
             backButton.getScene().getWindow().hide();
 
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/com/editdb/profile.fxml"));
-            Stage stage = new Stage();
-            try {
-                stage.setScene(new Scene(loader.load()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            stage.show();
+            FXMLLoader loader = base.showWindow(this, "profile.fxml");
         });
 
         editButton.setOnAction(event -> {
@@ -82,15 +74,7 @@ public class profileEditPasswordController {
                     Resources.user.update(values);
                     editButton.getScene().getWindow().hide();
 
-                    FXMLLoader loader = new FXMLLoader();
-                    loader.setLocation(getClass().getResource("/com/editdb/profile.fxml"));
-                    Stage stage = new Stage();
-                    try {
-                        stage.setScene(new Scene(loader.load()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    stage.show();
+                    FXMLLoader loader = base.showWindow(this, "profile.fxml");
                 } catch (SQLIntegrityConstraintViolationException e) {
                     shapeEditButton.playAnimation();
                 }

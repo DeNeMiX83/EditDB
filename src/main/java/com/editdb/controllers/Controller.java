@@ -16,6 +16,7 @@ import com.editdb.Resources;
 import com.editdb.animations.Shape;
 import com.editdb.db.DataBaseHahdler;
 import com.editdb.db.models.User;
+import com.editdb.services.base;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -59,15 +60,7 @@ public class Controller {
         authSignInButton.setOnAction(event -> {
             authSignInButton.getScene().getWindow().hide();
 
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/com/editdb/auth.fxml"));
-            Stage stage = new Stage();
-            try {
-                stage.setScene(new Scene(loader.load()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            stage.show();
+            FXMLLoader loader = base.showWindow(this, "auth.fxml");
         });
 
         loginSignInButton.setOnAction(event -> {
@@ -85,15 +78,7 @@ public class Controller {
                 try {
                     Resources.user = User.create(login, pass);
                     authSignInButton.getScene().getWindow().hide();
-                    FXMLLoader loader = new FXMLLoader();
-                    loader.setLocation(getClass().getResource("/com/editdb/app.fxml"));
-                    Stage stage = new Stage();
-                    try {
-                        stage.setScene(new Scene(loader.load()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    stage.show();
+                    FXMLLoader loader = base.showWindow(this, "app.fxml");
                 } catch (SQLIntegrityConstraintViolationException e) {
                     shapeLogin.playAnimation();
                 }
@@ -104,18 +89,7 @@ public class Controller {
             guestSignInButton.getScene().getWindow().hide();
             Resources.user = null;
 
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/com/editdb/appGuest.fxml"));
-            try {
-                loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            Parent root = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
+            FXMLLoader loader = base.showWindow(this, "appGuest.fxml");
         });
     }
 

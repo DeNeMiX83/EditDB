@@ -10,6 +10,7 @@ import com.editdb.Resources;
 import com.editdb.animations.Shape;
 import com.editdb.db.DataBaseHahdler;
 import com.editdb.db.models.User;
+import com.editdb.services.base;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -44,18 +45,7 @@ public class AuthController {
         backButton.setOnAction(event -> {
             backButton.getScene().getWindow().hide();
 
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/com/editdb/sample.fxml"));
-            try {
-                loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            Parent root = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
+            FXMLLoader loader = base.showWindow(this, "sample.fxml");
         });
 
         authSignInButton.setOnAction(event -> {
@@ -77,19 +67,7 @@ public class AuthController {
             authSignInButton.getScene().getWindow().hide();
             Resources.user = user;
 
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/com/editdb/app.fxml"));
-            try {
-                loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            Parent root = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
-
+            FXMLLoader loader = base.showWindow(this, "app.fxml");
         }
         else {
             Shape shapeLogin = new Shape(login_field);
