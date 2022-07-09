@@ -18,10 +18,10 @@ public class DataBaseHahdler{
 
     public static Connection getDbConnection()
             throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.jdbc.Driver");
         if (dbConnection == null) {
             String connectionString = "jdbc:mysql://" + Configs.dbHost + ":" + Configs.dbPort + "/" + Configs.dbName;
 
-//            Class.forName("com.mysql.jdbc.Driver");
 
             dbConnection = DriverManager.getConnection(connectionString, Configs.dbUser, Configs.dbPass);
         }

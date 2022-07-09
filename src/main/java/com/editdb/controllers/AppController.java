@@ -64,16 +64,7 @@ public class AppController extends AppGuestController {
         start();
 
         addButton.setOnAction(event -> {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/com/editdb/addQuote.fxml"));
-            Stage stage = new Stage();
-            try {
-                stage.setScene(new Scene(loader.load()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            stage.show();
+            FXMLLoader loader = base.showWindow(this, "addQuote.fxml");
 
             AddQuoteController addQuoteController = loader.getController();
             addQuoteController.setTable(this);
@@ -87,17 +78,9 @@ public class AppController extends AppGuestController {
                 return;
             }
 
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/com/editdb/editQuote.fxml"));
-            Stage stage = new Stage();
-            try {
-                stage.setScene(new Scene(loader.load()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            FXMLLoader loader = base.showWindow(this, "editQuote.fxml");
 
             EditQuoteController editQuoteController = loader.getController();
-            stage.show();
             editQuoteController.setQuote(current);
             editQuoteController.setTable(table);
         });
@@ -120,15 +103,7 @@ public class AppController extends AppGuestController {
         profileButton.setOnAction(event -> {
             profileButton.getScene().getWindow().hide();
 
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/com/editdb/profile.fxml"));
-            Stage stage = new Stage();
-            try {
-                stage.setScene(new Scene(loader.load()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            stage.show();
+            FXMLLoader loader = base.showWindow(this, "profile.fxml");
         });
     }
 
